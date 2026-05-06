@@ -1,13 +1,17 @@
 import TodoListItem from './TodoListItem.jsx';
+import EmptyState from './EmptyState.jsx';
 
 
-function TodoList({todoList}) {
-    return (
-        <>
-            <ul>
-                {todoList.map(todo => <TodoListItem key={todo.id} todo={todo}/>)}
-            </ul>
-        </>
+function TodoList({ todoList, onCompleteTodo }) {
+    const filteredTodoList = todoList.filter((todo) => !todo.isCompleted);
+    return filteredTodoList.length === 0 ? (
+        <EmptyState />
+        ) : (
+        <ul style={{ listStyle: "none" }}>
+            {filteredTodoList.map((todo) => (
+                <TodoListItem key={todo.id} todo={todo} onCompleteTodo={onCompleteTodo}/>
+            ))}
+        </ul>
     );
 }
 
