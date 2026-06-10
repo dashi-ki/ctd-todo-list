@@ -1,18 +1,22 @@
 import { useReducer, useEffect } from 'react';
-import TodoForm from './TodoForm';
-import TodoList from './TodoList/TodoList';
-import SortBy from '../../shared/SortBy';
-import FilterInput from '../../shared/FilterInput';
-import useDebounce from '../../utils/useDebounce';
+import { useSearchParams } from 'react-router';
+import TodoForm from '../features/Todos/TodoForm';
+import TodoList from '../features/Todos/TodoList/TodoList';
+import SortBy from '../shared/SortBy';
+import FilterInput from '../shared/FilterInput';
+import StatusFilter from '../shared/StatusFilter';
+import useDebounce from '../utils/useDebounce';
 import {
   todoReducer,
   initialTodoState,
   TODO_ACTIONS,
-} from '../../reducers/todoReducer';
-import { useAuth } from '../../contexts/AuthContext';
+} from '../reducers/todoReducer';
+import { useAuth } from '../contexts/AuthContext';
 
 function TodosPage() {
     const { token } = useAuth();
+    const [searchParams] = useSearchParams();
+    const statusFilter = searchParams.get('status') || 'all';
     const [state, dispatch] = useReducer(todoReducer, initialTodoState);
     const {
         todoList,
@@ -34,8 +38,12 @@ function TodosPage() {
                 const paramsObject = {
                     sortBy,
                     sortDirection,
-                    isCompleted: false,
                 };
+                if (statusFilter === 'completed') {
+                    paramsObject.isCompleted = true;
+                } else if (statusFilter === 'active') {
+                    paramsObject.isCompleted = false;
+                }
                 if (debouncedFilterTerm) {
                     paramsObject.find = debouncedFilterTerm;
                 }
@@ -79,7 +87,7 @@ function TodosPage() {
         if (token) {
             fetchTodos();
         }
-    }, [token, sortBy, sortDirection, debouncedFilterTerm]);
+    }, [token, sortBy, sortDirection, debouncedFilterTerm, statusFilter]);
 
     const handleFilterChange = (newTerm) => {
         dispatch({
@@ -203,6 +211,7 @@ function TodosPage() {
                     })
                 }
             />
+            <StatusFilter />
             <FilterInput
                 filterTerm={filterTerm}
                 onFilterChange={handleFilterChange}
@@ -213,6 +222,7 @@ function TodosPage() {
                 onCompleteTodo={completeTodo}
                 onUpdateTodo={updateTodo}
                 dataVersion={dataVersion}
+                statusFilter={statusFilter}
             />
         </div>
     );
