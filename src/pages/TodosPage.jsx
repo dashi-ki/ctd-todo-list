@@ -61,7 +61,7 @@ function TodosPage() {
                 const data = await response.json();
                 dispatch({
                     type: TODO_ACTIONS.FETCH_SUCCESS,
-                    payload: { todos: data.tasks },
+                    payload: { todos: data.tasks ?? [] },
                 });
             } catch (err) {
                 if (debouncedFilterTerm || sortBy !== 'createdAt' || sortDirection !== 'desc') {
