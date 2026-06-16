@@ -62,6 +62,9 @@ export function todoReducer(state, action) {
         isTodoListLoading: false,
         error: action.payload.isFilterError ? state.error : action.payload.message,
         filterError: action.payload.isFilterError ? action.payload.message : state.filterError,
+        // On a filter/search error, clear the list so an empty state shows
+        // instead of leaving the previous (unfiltered) results on screen.
+        todoList: action.payload.isFilterError ? [] : state.todoList,
       };
 
     case TODO_ACTIONS.ADD_TODO_START:

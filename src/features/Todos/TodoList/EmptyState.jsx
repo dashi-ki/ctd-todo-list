@@ -1,5 +1,5 @@
-function EmptyState() {
-    return <p>Add todo above to get started</p>;
+function EmptyState({ message = 'Add todo above to get started' }) {
+    return <p>{message}</p>;
 }
 
 export default EmptyState;
