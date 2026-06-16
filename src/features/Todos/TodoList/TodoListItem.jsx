@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { isValidTodoTitle } from '../../../utils/todoValidation';
 import TextInputWithLabel from '../../../shared/TextInputWithLabel.jsx';
 
-function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
+function TodoListItem({ todo, onToggleTodo, onUpdateTodo, onDeleteTodo }) {
     const [isEditing, setIsEditing] = useState(false);
     const [workingTitle, setWorkingTitle] = useState(todo.title);
 
@@ -18,35 +18,41 @@ function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
         setIsEditing(false);
     };
 
-    const handleEdit = (event) => {
-        setWorkingTitle(event.target.value);
-    };
-
     return (
         <li>
             <form onSubmit={handleUpdate}>
                 {isEditing ? (
                     <>
-                        <TextInputWithLabel value={workingTitle} onChange={handleEdit} />
+                        <TextInputWithLabel
+                            value={workingTitle}
+                            onChange={(event) => setWorkingTitle(event.target.value)}
+                        />
                         <button type="button" onClick={handleCancel}>Cancel</button>
-                        <button type="button" onClick={handleUpdate} disabled={!isValidTodoTitle(workingTitle)}>Update</button>
+                        <button
+                            type="button"
+                            onClick={handleUpdate}
+                            disabled={!isValidTodoTitle(workingTitle)}
+                        >
+                            Update
+                        </button>
                     </>
                 ) : (
                     <>
-                        <label>
-                            <input
-                                type="checkbox"
-                                id={`checkbox${todo.id}`}
-                                checked={todo.isCompleted}
-                                onChange={() => onCompleteTodo(todo.id)}
-                            />
+                        <input
+                            type="checkbox"
+                            id={`checkbox${todo.id}`}
+                            checked={todo.isCompleted}
+                            onChange={() => onToggleTodo(todo)}
+                        />
+                        <label htmlFor={`checkbox${todo.id}`} onClick={() => setIsEditing(true)}>
+                            {todo.title}
                         </label>
-                        <span onClick={() => setIsEditing(true)}>{todo.title}</span>
+                        <button type="button" onClick={() => onDeleteTodo(todo.id)}>Delete</button>
                     </>
                 )}
             </form>
         </li>
-    )
+    );
 }
 
 export default TodoListItem;

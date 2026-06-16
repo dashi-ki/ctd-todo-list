@@ -2,27 +2,18 @@ import { useMemo } from 'react';
 import TodoListItem from './TodoListItem.jsx';
 import EmptyState from './EmptyState.jsx';
 
-
-function TodoList({ todoList, onCompleteTodo, onUpdateTodo, dataVersion, statusFilter = 'active' }) {
+function TodoList({ todoList, onToggleTodo, onUpdateTodo, onDeleteTodo, statusFilter = 'active' }) {
     const filteredTodoList = useMemo(() => {
-        let filteredTodos;
         switch (statusFilter) {
             case 'completed':
-                filteredTodos = todoList.filter((todo) => todo.isCompleted);
-                break;
+                return todoList.filter((todo) => todo.isCompleted);
             case 'active':
-                filteredTodos = todoList.filter((todo) => !todo.isCompleted);
-                break;
+                return todoList.filter((todo) => !todo.isCompleted);
             case 'all':
             default:
-                filteredTodos = todoList;
-                break;
+                return todoList;
         }
-        return {
-            version: dataVersion,
-            todos: filteredTodos,
-        };
-    }, [todoList, dataVersion, statusFilter]);
+    }, [todoList, statusFilter]);
 
     const getEmptyMessage = () => {
         switch (statusFilter) {
@@ -36,12 +27,18 @@ function TodoList({ todoList, onCompleteTodo, onUpdateTodo, dataVersion, statusF
         }
     };
 
-    return filteredTodoList.todos.length === 0 ? (
+    return filteredTodoList.length === 0 ? (
         <EmptyState message={getEmptyMessage()} />
-        ) : (
-        <ul style={{ listStyle: "none" }}>
-            {filteredTodoList.todos.map((todo) => (
-                <TodoListItem key={todo.id} todo={todo} onCompleteTodo={onCompleteTodo} onUpdateTodo={onUpdateTodo}/>
+    ) : (
+        <ul style={{ listStyle: 'none' }}>
+            {filteredTodoList.map((todo) => (
+                <TodoListItem
+                    key={todo.id}
+                    todo={todo}
+                    onToggleTodo={onToggleTodo}
+                    onUpdateTodo={onUpdateTodo}
+                    onDeleteTodo={onDeleteTodo}
+                />
             ))}
         </ul>
     );
