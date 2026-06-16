@@ -34,7 +34,7 @@ function TodosPage() {
         async function fetchTodos() {
             dispatch({ type: TODO_ACTIONS.FETCH_START });
             try {
-                const paramsObject = { sortBy, sortDirection };
+                const paramsObject = { sortBy, sortDirection, limit: 100 };
                 if (statusFilter === 'completed') paramsObject.isCompleted = true;
                 else if (statusFilter === 'active') paramsObject.isCompleted = false;
                 if (debouncedFilterTerm) paramsObject.find = debouncedFilterTerm;
