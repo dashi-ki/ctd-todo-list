@@ -1,0 +1,30 @@
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    margin-bottom: 16px;
+    background: color-mix(in srgb, var(--color-priority-high) 8%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-priority-high) 25%, transparent);
+    border-radius: var(--radius);
+    color: var(--color-text);
+    animation: slideIn 0.2s ease;
+}
+
+.icon {
+    color: var(--color-priority-high);
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.message {
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+}
