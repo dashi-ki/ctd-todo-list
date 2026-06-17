@@ -36,6 +36,16 @@ A full-stack task management app built with React. Supports creating, editing, c
 
 ---
 
+## Screenshots
+<img width="955" height="768" alt="image" src="https://github.com/user-attachments/assets/4d9d07d7-2d28-4487-9ff6-fb0ddadb94be" />
+
+---
+<img width="955" height="768" alt="image" src="https://github.com/user-attachments/assets/cb5a1990-6701-4473-a48d-5f4ea8b38c21" />
+
+---
+<img width="1101" height="432" alt="image" src="https://github.com/user-attachments/assets/ca76f3a7-7b18-43e7-9b3c-79aed64c834e" />
+
+
 ## Getting Started
 
 ### Prerequisites
