@@ -16,52 +16,30 @@ export const TODO_ACTIONS = {
   DELETE_TODO_SUCCESS: 'DELETE_TODO_SUCCESS',
   DELETE_TODO_ERROR: 'DELETE_TODO_ERROR',
 
-  // UI
-  SET_SORT: 'SET_SORT',
+  // UI — sort/status live in URL params; search is client-side
   SET_FILTER: 'SET_FILTER',
   CLEAR_ERROR: 'CLEAR_ERROR',
-  CLEAR_FILTER_ERROR: 'CLEAR_FILTER_ERROR',
   RESET_FILTERS: 'RESET_FILTERS',
 };
 
 export const initialTodoState = {
   todoList: [],
   error: '',
-  filterError: '',
   isTodoListLoading: true,
-  sortBy: 'createdAt',
-  sortDirection: 'desc',
   filterTerm: '',
+  // sort, status, priority live in URL params; search is applied client-side via useMemo
 };
 
 export function todoReducer(state, action) {
   switch (action.type) {
     case TODO_ACTIONS.FETCH_START:
-      return {
-        ...state,
-        isTodoListLoading: true,
-        error: '',
-        filterError: '',
-      };
+      return { ...state, isTodoListLoading: true, error: '' };
 
     case TODO_ACTIONS.FETCH_SUCCESS:
-      return {
-        ...state,
-        isTodoListLoading: false,
-        todoList: action.payload.todos,
-        filterError: '',
-      };
+      return { ...state, isTodoListLoading: false, todoList: action.payload.todos };
 
     case TODO_ACTIONS.FETCH_ERROR:
-      return {
-        ...state,
-        isTodoListLoading: false,
-        error: action.payload.isFilterError ? state.error : action.payload.message,
-        filterError: action.payload.isFilterError ? action.payload.message : state.filterError,
-        // On a filter/search error, clear the list so an empty state shows
-        // instead of leaving the previous (unfiltered) results on screen.
-        todoList: action.payload.isFilterError ? [] : state.todoList,
-      };
+      return { ...state, isTodoListLoading: false, error: action.payload.message };
 
     case TODO_ACTIONS.ADD_TODO_SUCCESS:
       return {
@@ -101,13 +79,6 @@ export function todoReducer(state, action) {
         error: action.payload.message,
       };
 
-    case TODO_ACTIONS.SET_SORT:
-      return {
-        ...state,
-        sortBy: action.payload.sortBy,
-        sortDirection: action.payload.sortDirection,
-      };
-
     case TODO_ACTIONS.SET_FILTER:
       return {
         ...state,
@@ -120,20 +91,8 @@ export function todoReducer(state, action) {
         error: '',
       };
 
-    case TODO_ACTIONS.CLEAR_FILTER_ERROR:
-      return {
-        ...state,
-        filterError: '',
-      };
-
     case TODO_ACTIONS.RESET_FILTERS:
-      return {
-        ...state,
-        filterTerm: '',
-        sortBy: 'createdAt',
-        sortDirection: 'desc',
-        filterError: '',
-      };
+      return { ...state, filterTerm: '' };
 
     default:
       throw new Error(`Unknown action type: ${action.type}`);

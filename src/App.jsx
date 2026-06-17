@@ -1,7 +1,5 @@
-import './App.css';
-import { Routes, Route } from 'react-router';
-import Header from './shared/Header';
-import HomePage from './pages/HomePage';
+import { Routes, Route, Navigate } from 'react-router';
+import SidebarLayout from './components/SidebarLayout';
 import AboutPage from './pages/AboutPage';
 import LoginPage from './pages/LoginPage';
 import TodosPage from './pages/TodosPage';
@@ -11,31 +9,16 @@ import RequireAuth from './components/RequireAuth';
 
 function App() {
   return (
-    <div>
-      <Header />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
+    <Routes>
+      <Route path="/" element={<Navigate to="/todos" replace />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route element={<RequireAuth><SidebarLayout /></RequireAuth>}>
+        <Route path="/todos" element={<TodosPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="/about" element={<AboutPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route
-          path="/todos"
-          element={
-            <RequireAuth>
-              <TodosPage />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <RequireAuth>
-              <ProfilePage />
-            </RequireAuth>
-          }
-        />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </div>
+      </Route>
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
   );
 }
 

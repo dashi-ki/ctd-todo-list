@@ -1,0 +1,342 @@
+/* ── Loading state ── */
+.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 48px 24px;
+    color: var(--color-text-muted);
+    font-size: 14px;
+}
+
+.spinner {
+    width: 28px;
+    height: 28px;
+    border: 2.5px solid var(--color-border);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ── List (shared) ── */
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* ── Item ── */
+.item {
+    padding: 10px 4px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.item:last-child {
+    border-bottom: none;
+}
+
+.mainRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Bottom row hidden on desktop */
+.bottomRow {
+    display: none;
+}
+
+/* Show action buttons only on hover/focus-within on desktop */
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.item:hover .actions,
+.item:focus-within .actions {
+    opacity: 1;
+}
+
+/* ── Checkbox ── */
+.checkbox {
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border: 2px solid color-mix(in srgb, var(--p-color) 50%, var(--color-border));
+    border-radius: 5px;
+    flex-shrink: 0;
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.checkbox:hover {
+    border-color: var(--p-color);
+    background: color-mix(in srgb, var(--p-color) 10%, transparent);
+}
+
+.checkbox:checked {
+    background: var(--p-color);
+    border-color: var(--p-color);
+}
+
+.checkbox:checked::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 6px;
+    height: 11px;
+    border: 2.5px solid #fff;
+    border-top: none;
+    border-left: none;
+    transform: rotate(45deg);
+}
+
+/* ── Title ── */
+.title {
+    flex: 1;
+    min-width: 0;
+    font-size: 14px;
+    color: var(--color-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.5;
+    user-select: none;
+}
+
+.titleCompleted {
+    text-decoration: line-through;
+    color: var(--color-text-muted);
+}
+
+/* ── Priority dot ── */
+.priorityDot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--p-color);
+    flex-shrink: 0;
+    opacity: 0.85;
+}
+
+/* ── Action buttons ── */
+.editBtn,
+.deleteBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.editBtn:hover {
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    color: var(--color-primary);
+}
+
+.deleteBtn:hover {
+    background: color-mix(in srgb, var(--color-priority-high) 10%, transparent);
+    color: var(--color-priority-high);
+}
+
+/* ── Edit priority picker ── */
+.editPriorityPicker {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.editPriorityDot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid var(--p-color);
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+    transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.editPriorityDot:hover {
+    background: color-mix(in srgb, var(--p-color) 20%, transparent);
+}
+
+.editPriorityDotActive {
+    background: var(--p-color);
+}
+
+.editPriorityDot:active {
+    transform: scale(0.9);
+}
+
+/* ── Edit mode ── */
+.editForm {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+}
+
+.editInput {
+    flex: 1;
+    min-width: 0;
+    padding: 5px 8px;
+    border: 1px solid var(--color-primary);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: 14px;
+    line-height: 1.5;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 15%, transparent);
+    outline: none;
+}
+
+.editActions {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.saveBtn,
+.cancelBtn {
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: var(--radius);
+    border: 1px solid var(--color-border);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.saveBtn {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #fff;
+}
+
+.saveBtn:hover:not(:disabled) {
+    background: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
+}
+
+.saveBtn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.cancelBtn {
+    background: transparent;
+    color: var(--color-text-muted);
+}
+
+.cancelBtn:hover {
+    background: var(--color-bg);
+    color: var(--color-text);
+}
+
+/* ══════════════════════════════════════════
+   Mobile — card style
+   ══════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 12px;
+    }
+
+    .item {
+        padding: 12px 14px;
+        border-bottom: none;
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-left: 3px solid var(--p-color);
+        border-radius: calc(var(--radius) * 2);
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .item:last-child {
+        border-bottom: none;
+    }
+
+    /* Title wraps on mobile */
+    .title {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: unset;
+    }
+
+    /* Hide desktop-side controls */
+    .priorityDotDesktop,
+    .actionsDesktop {
+        display: none;
+    }
+
+    /* Show bottom row with actions */
+    .bottomRow {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding-top: 8px;
+        border-top: 1px solid var(--color-border);
+    }
+
+    .bottomRow .actions {
+        opacity: 1;
+        gap: 6px;
+    }
+
+    /* Labeled buttons — fixed size, right-aligned */
+    .bottomRow .editBtn,
+    .bottomRow .deleteBtn {
+        width: 88px;
+        justify-content: center;
+        height: 30px;
+        padding: 0;
+        gap: 5px;
+        font-size: 12px;
+        font-weight: 500;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+        background: transparent;
+        color: var(--color-text-muted);
+    }
+
+    .bottomRow .editBtn:active {
+        background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+        color: var(--color-primary);
+        border-color: var(--color-primary);
+    }
+
+    .bottomRow .deleteBtn {
+        color: var(--color-priority-high);
+        border-color: color-mix(in srgb, var(--color-priority-high) 35%, transparent);
+        background: color-mix(in srgb, var(--color-priority-high) 6%, transparent);
+    }
+
+    .bottomRow .deleteBtn:active {
+        background: color-mix(in srgb, var(--color-priority-high) 16%, transparent);
+    }
+}
